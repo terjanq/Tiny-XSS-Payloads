@@ -1,5 +1,8 @@
 const checkboxesForm = document.getElementById('checkboxesForm');
 const payloadsDiv = document.getElementById("payloads")
+
+const enc = encodeURIComponent;
+
 for(const tag of Object.values(TAGS)){
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -17,8 +20,13 @@ for(const tag of Object.values(TAGS)){
 function execute_payload(payload){
     hash = `/*<iframe/onload="/*'/**/;alert(document.domain)//">`
     let iframe = document.createElement('iframe');
-    x = open(`https://terjanq.ml/xss.php?html=${encodeURIComponent(payload.html)}#${hash}`, 'javascript:alert(document.domain)//')
-       
+    let meta = ''
+
+    if(TAGS.inlineStyleBlock) {
+        meta += `<meta http-equiv="content-security-policy" content="style-src 'none'">`
+    }
+
+    x = open(`https://terjanq.ml/xss.php?html=${enc(meta)}${enc(payload.html)}#${hash}`, 'javascript:alert(document.domain)//')
 }
 
 function createPayloads(payloads){
