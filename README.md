@@ -1,5 +1,5 @@
 # Tiny-XSS-Payloads
-Repository containing tiny XSS payloads for different contexts.
+A collection of short XSS payloads that can be used in different contexts.
 
 The DEMO available here: <https://terjanq.github.io/Tiny-XSS-Payloads/index.html>
 
