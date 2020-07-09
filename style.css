@@ -1,0 +1,71 @@
+html{
+    background: #f6f8fa!important
+}
+
+h2{
+    color:grey
+}
+.main{
+    margin: auto;
+    margin-top: 50px;
+    width: 1000px;
+    /* margin: 50px; */
+}
+
+input[type=checkbox]:not(:first-child){
+    margin-left: 15px;
+}
+
+input[type=checkbox], #checkboxesForm label{
+    cursor: pointer;
+}
+
+.payload{
+    background: #e2e2e2;
+    padding:10px;
+    border-radius:5px;
+    margin: 5px;
+    position:relative;
+    padding-left: 30px;
+    display:inline-block;
+}
+
+.payload .tag{
+    background: #b3bfbf;
+    font-size:13px;
+    border-radius:3px;
+    padding: 2px 4px;
+    margin: 2px;
+    pointer-events: none;
+}
+
+.payload .counter{
+    position:absolute;
+    top:0;
+    left:0;
+    background: #adadad;
+    font-size: 12px;
+    padding: 4px;
+    border-radius: 5px;
+    color:white;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.payload .poc{
+    position:absolute;
+    top:0;
+    right:0;
+    background: #adadad;
+    font-size: 12px;
+    padding: 4px;
+    border-radius: 5px;
+    color:white;
+    font-weight: bold;
+    text-decoration: none;
+    cursor:pointer;
+}
+
+.payload .poc::before{
+    content: "PoC"
+}
