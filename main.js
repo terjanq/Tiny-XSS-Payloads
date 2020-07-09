@@ -22,7 +22,7 @@ function execute_payload(payload){
     let iframe = document.createElement('iframe');
     let meta = ''
 
-    if(TAGS.inlineStyleBlock) {
+    if(payload.tags.includes(TAGS.inlineStyleBlock)) {
         meta += `<meta http-equiv="content-security-policy" content="style-src 'none'">`
     }
 
