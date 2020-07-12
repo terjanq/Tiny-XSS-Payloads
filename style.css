@@ -3,7 +3,7 @@ html{
 }
 
 h2{
-    color:grey
+    color: #2f2f2f
 }
 .main{
     margin: auto;
@@ -68,4 +68,26 @@ input[type=checkbox], #checkboxesForm label{
 
 .payload .poc::before{
     content: "PoC"
+}
+
+.subtitle{
+    color: black;
+    display: inline-block;
+    opacity: 0.6;
+    height: 30px;
+    margin-top:-20px;
+    transform: scale(0.8);
+    transform-origin: left center;
+}
+.repo-link{
+    color: black;
+    text-decoration: none;
+    vertical-align: middle;
+    font-size: 22px;
+}
+
+.subtitle span{
+    vertical-align: middle;
+    margin-left: 10px;
+    
 }
