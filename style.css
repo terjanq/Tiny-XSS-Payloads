@@ -1,3 +1,4 @@
+
 html{
     background: #f6f8fa!important
 }
@@ -28,15 +29,21 @@ input[type=checkbox], #checkboxesForm label{
     position:relative;
     padding-left: 30px;
     display:inline-block;
+    max-width: 500px;
 }
 
-.payload .tag{
+.payload .tags{
+    max-width: 400px;
+}
+
+.payload .tags span{
     background: #b3bfbf;
     font-size:13px;
     border-radius:3px;
     padding: 2px 4px;
     margin: 2px;
     pointer-events: none;
+    display: inline-block;
 }
 
 .payload .counter{
@@ -52,22 +59,38 @@ input[type=checkbox], #checkboxesForm label{
     pointer-events: none;
 }
 
-.payload .poc{
+.payload .pocs{
     position:absolute;
     top:0;
     right:0;
-    background: #adadad;
-    font-size: 12px;
-    padding: 4px;
-    border-radius: 5px;
-    color:white;
-    font-weight: bold;
-    text-decoration: none;
-    cursor:pointer;
+    margin:0;
+    padding:0;
+    /* float: right; */
 }
 
-.payload .poc::before{
-    content: "PoC"
+.payload .pocs span{
+    margin-left: 5px;
+    background: #adadad;
+    padding: 4px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor:pointer;
+    font-size: 10px;
+    color:white;
+    font-weight: bold;
+    float: right;
+}
+
+.payload .poc-reflected{
+    right: 100px;
+}
+
+.payload .poc-dom::before{
+    content: "PoC DOM"
+}
+
+.payload .poc-reflected::before{
+    content: "PoC Reflected"
 }
 
 .subtitle{

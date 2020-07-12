@@ -3,86 +3,105 @@ const payloadsDiv = document.getElementById("payloads")
 
 const enc = encodeURIComponent;
 
-for(const tag of Object.values(TAGS)){
+for (const tag of Object.values(TAGS)) {
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = 1;
-    checkbox.id=tag;
+    checkbox.id = tag;
     checkboxesForm.appendChild(checkbox);
 
     let label = document.createElement('label');
-    label.htmlFor=tag;
-    label.innerHTML=tag;
+    label.htmlFor = tag;
+    label.innerHTML = tag;
     checkboxesForm.appendChild(label);
-    
+
 }
 
-function execute_payload(payload){
-    
+function execute_payload(payload, type = "reflected") {
+
     const XSS_URL_BASE = 'https://terjanq.me/xss.php'
     let name = '';
     let hash = '';
     let contentType = '';
     let referrer = '';
-    
+
     const csp_dict = {
         'default-src': [`'none'`],
     };
 
-    function add_to_csp(key, value){
-        if(!csp_dict[key]) csp_dict[key] = [];
+    function add_to_csp(key, value) {
+        if (!csp_dict[key]) csp_dict[key] = [];
         csp_dict[key].push(value);
     }
 
-    function construct_csp(){
+    function construct_csp() {
         let csp_string = "";
-        for(let key in csp_dict){
+        for (let key in csp_dict) {
             csp_string += `${key} ${csp_dict[key].join(' ')};`;
         }
         return csp_string;
     }
 
-    function construct_xss_url(query_dict, hash=''){
+    function construct_xss_url(query_dict, hash = '') {
         const url = new URL(XSS_URL_BASE);
-        for(let key in query_dict){
-            if(query_dict[key] === '') continue;
+        for (let key in query_dict) {
+            if (query_dict[key] === '') continue;
             url.searchParams.append(key, query_dict[key]);
         }
-        if(hash !== ''){
+        if (hash !== '') {
             url.hash = hash
         }
         return url.toString();
     }
 
-    if(payload.tags.includes(TAGS.controlsName)){
+    if (payload.tags.includes(TAGS.controlsName)) {
         name = 'javascript:alert(document.domain)//'
     }
-    if(payload.tags.includes(TAGS.inlineStyleAllow)) {
+    if (payload.tags.includes(TAGS.inlineStyleAllow)) {
         add_to_csp('style-src', "'unsafe-inline'");
     }
-    if(payload.tags.includes(TAGS.scripts)) {
+    if (payload.tags.includes(TAGS.scripts)) {
         add_to_csp('script-src', "http: https:");
     }
-    if(payload.tags.includes(TAGS.unsafeEval)){
+    if (payload.tags.includes(TAGS.unsafeEval)) {
         add_to_csp('script-src', `'unsafe-eval'`)
     }
-    if(payload.tags.includes(TAGS.unsafeInline)){
+    if (payload.tags.includes(TAGS.unsafeInline)) {
         add_to_csp('script-src', `'unsafe-inline'`)
     }
-    if(payload.tags.includes(TAGS.iframes)){
+    if (payload.tags.includes(TAGS.iframes)) {
         add_to_csp('frame-src', 'http: https:');
         referrer = 'origin';
     }
-    if(payload.tags.includes(TAGS.controlsURL)){
+    if (payload.tags.includes(TAGS.controlsURL)) {
         hash = `#/*<iframe/onload="/*'/**/;alert(document.domain)//">`
     }
     // add content-type to the page so the nj.rs will display appriopriate content-type
-    if(payload.tags.includes(TAGS.scripts)){
+    if (payload.tags.includes(TAGS.scripts)) {
         contentType = 'application/javascript;charset=UTF-8'
     }
 
+    let html = payload.html;
+
+    if (type === 'DOM') {
+        add_to_csp('script-src', "data:");
+        let payload_dom = JSON.stringify(payload.html)
+        payload_dom = payload_dom
+            .replace(/\u2028/gi, '\\u2028')
+            .replace(/\u2029/gi, '\\u2029')
+            .replace(/<\/script/gi, '<\\/script');
+
+        let payload_content = `
+onload = () => {
+    payload.innerHTML = ${payload_dom};
+};`
+        let payload_src = `data:text/javascript,${encodeURIComponent(payload_content)}`
+        html = `<html><head></head><body><div id=payload></div></body></html><script src="${payload_src}"></script>`;
+
+    }
+
     const xss_url = construct_xss_url({
-        html: payload.html,
+        html: html,
         csp: construct_csp(),
         '__content-type': contentType,
         referrer: referrer
@@ -92,9 +111,10 @@ function execute_payload(payload){
     // x = open(`https://terjanq.me/xss.php?html=${enc(meta)}${enc(payload.html)}${hash}${contentType}`, name)
 }
 
-function createPayloads(payloads){
-    payloads.sort((x,y) => x.html.length - y.html.length)
-    for(let payload of payloads){
+
+function createPayloads(payloads) {
+    payloads.sort((x, y) => x.html.length - y.html.length)
+    for (let payload of payloads) {
         let div = document.createElement('div');
         div.className = "payload";
 
@@ -113,41 +133,56 @@ function createPayloads(payloads){
         counter.innerText = payload.html.length;
         div.appendChild(counter);
 
-        let poc = document.createElement('span');
-        poc.className = 'poc';
-        div.appendChild(poc);
+        let pocs = document.createElement('div');
+        pocs.className = 'pocs';
 
-        poc.onclick = _ => execute_payload(payload)
-        for(let tag of payload.tags){
+        div.appendChild(pocs);
+
+        let pocReflected = document.createElement('span');
+        pocReflected.className = 'poc-reflected';
+        pocs.appendChild(pocReflected);
+
+        let pocDOM = document.createElement('span');
+        pocDOM.className = 'poc-dom';
+        pocs.appendChild(pocDOM);
+
+        pocReflected.onclick = _ => execute_payload(payload, 'reflected')
+        pocDOM.onclick = _ => execute_payload(payload, 'DOM')
+
+        let tags = document.createElement('div');
+        tags.className = "tags"
+        div.appendChild(tags);
+
+        for (let tag of payload.tags) {
             let span = document.createElement('span');
             span.className = "tag";
             span.innerText = tag;
-            div.appendChild(span)
+            tags.appendChild(span)
         }
         payloadsDiv.appendChild(div)
     }
-    
+
 }
 
-function process(e){
+function process(e) {
     payloadsDiv.innerHTML = '';
 
     const checkboxes = checkboxesForm.querySelectorAll('input[type=checkbox]')
     let tags = []
-    for(let checkbox of checkboxes){
-        if(checkbox.checked){
+    for (let checkbox of checkboxes) {
+        if (checkbox.checked) {
             tags.push(checkbox.id)
         }
     }
 
     let payloads = []
 
-    for(const payload of PAYLOADS){
-        if(payload.tags.every(t=>tags.includes(t))){
+    for (const payload of PAYLOADS) {
+        if (payload.tags.every(t => tags.includes(t))) {
             payloads.push(payload)
         }
     }
-    
+
     createPayloads(payloads);
 }
 
