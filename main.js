@@ -19,23 +19,77 @@ for(const tag of Object.values(TAGS)){
 
 function execute_payload(payload){
     
-    let iframe = document.createElement('iframe');
-    let meta = '';
+    const XSS_URL_BASE = 'https://terjanq.me/xss.php'
     let name = '';
     let hash = '';
+    let contentType = '';
+    let referrer = '';
+    
+    const csp_dict = {
+        'default-src': [`'none'`],
+    };
 
+    function add_to_csp(key, value){
+        if(!csp_dict[key]) csp_dict[key] = [];
+        csp_dict[key].push(value);
+    }
+
+    function construct_csp(){
+        let csp_string = "";
+        for(let key in csp_dict){
+            csp_string += `${key} ${csp_dict[key].join(' ')};`;
+        }
+        return csp_string;
+    }
+
+    function construct_xss_url(query_dict, hash=''){
+        const url = new URL(XSS_URL_BASE);
+        for(let key in query_dict){
+            if(query_dict[key] === '') continue;
+            url.searchParams.append(key, query_dict[key]);
+        }
+        if(hash !== ''){
+            url.hash = hash
+        }
+        return url.toString();
+    }
 
     if(payload.tags.includes(TAGS.controlsName)){
         name = 'javascript:alert(document.domain)//'
     }
-    if(payload.tags.includes(TAGS.inlineStyleBlock)) {
-        meta += `<meta http-equiv="content-security-policy" content="style-src 'none'">`
+    if(payload.tags.includes(TAGS.inlineStyleAllow)) {
+        add_to_csp('style-src', "'unsafe-inline'");
+    }
+    if(payload.tags.includes(TAGS.scripts)) {
+        add_to_csp('script-src', "http: https:");
+    }
+    if(payload.tags.includes(TAGS.unsafeEval)){
+        add_to_csp('script-src', `'unsafe-eval'`)
+    }
+    if(payload.tags.includes(TAGS.unsafeInline)){
+        add_to_csp('script-src', `'unsafe-inline'`)
+    }
+    if(payload.tags.includes(TAGS.iframes)){
+        add_to_csp('frame-src', 'http: https:');
+        referrer = 'origin';
     }
     if(payload.tags.includes(TAGS.controlsURL)){
         hash = `#/*<iframe/onload="/*'/**/;alert(document.domain)//">`
     }
+    // add content-type to the page so the nj.rs will display appriopriate content-type
+    if(payload.tags.includes(TAGS.scripts)){
+        contentType = 'application/javascript;charset=UTF-8'
+    }
 
-    x = open(`https://terjanq.me/xss.php?html=${enc(meta)}${enc(payload.html)}${hash}`, name)
+    const xss_url = construct_xss_url({
+        html: payload.html,
+        csp: construct_csp(),
+        '__content-type': contentType,
+        referrer: referrer
+    }, hash)
+
+    x = open(xss_url, name);
+    // x = open(`https://terjanq.me/xss.php?html=${enc(meta)}${enc(payload.html)}${hash}${contentType}`, name)
 }
 
 function createPayloads(payloads){
