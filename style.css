@@ -9,8 +9,17 @@ h2{
 .main{
     margin: auto;
     margin-top: 50px;
-    width: 1000px;
-    /* margin: 50px; */
+    max-width: 1000px;
+}
+
+#checkboxesForm{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#checkboxesForm .feature{
+    flex: 1 20%;
+    padding: 2px;
 }
 
 input[type=checkbox]:not(:first-child){
@@ -21,7 +30,14 @@ input[type=checkbox], #checkboxesForm label{
     cursor: pointer;
 }
 
+#payloads{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
 .payload{
+    flex: 1 0 25%;
     background: #e2e2e2;
     padding:10px;
     border-radius:5px;

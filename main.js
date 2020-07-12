@@ -4,16 +4,21 @@ const payloadsDiv = document.getElementById("payloads")
 const enc = encodeURIComponent;
 
 for (const tag of Object.values(TAGS)) {
+    let feature = document.createElement('div');
+    feature.className = "feature";
+
+    checkboxesForm.append(feature);
+
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = 1;
     checkbox.id = tag;
-    checkboxesForm.appendChild(checkbox);
+    feature.appendChild(checkbox);
 
     let label = document.createElement('label');
     label.htmlFor = tag;
     label.innerHTML = tag;
-    checkboxesForm.appendChild(label);
+    feature.appendChild(label);
 
 }
 
@@ -82,25 +87,23 @@ function execute_payload(payload, type = "reflected") {
     }
 
     let html = payload.html;
+    let dom_xss = ''
 
     if (type === 'DOM') {
         add_to_csp('script-src', "data:");
-        let payload_dom = JSON.stringify(payload.html)
-        payload_dom = payload_dom
-            .replace(/\u2028/gi, '\\u2028')
-            .replace(/\u2029/gi, '\\u2029')
-            .replace(/<\/script/gi, '<\\/script');
 
         let payload_content = `
 onload = () => {
-    payload.innerHTML = ${payload_dom};
+    url = new URL(location.href);
+    payload.innerHTML = url.searchParams.get('dom_xss');
 };`
         let payload_src = `data:text/javascript,${encodeURIComponent(payload_content)}`
         html = `<html><head></head><body><div id=payload></div></body></html><script src="${payload_src}"></script>`;
-
+        dom_xss = payload.html
     }
 
     const xss_url = construct_xss_url({
+        dom_xss: dom_xss,
         html: html,
         csp: construct_csp(),
         '__content-type': contentType,
@@ -108,7 +111,6 @@ onload = () => {
     }, hash)
 
     x = open(xss_url, name);
-    // x = open(`https://terjanq.me/xss.php?html=${enc(meta)}${enc(payload.html)}${hash}${contentType}`, name)
 }
 
 
