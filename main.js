@@ -87,15 +87,24 @@ function execute_payload(payload, type = "reflected") {
     }
 
     let html = payload.html;
+    let dynamic_script = '';
+    if(payload.tags.includes(TAGS.requiresRelativeScript)){
+        dynamic_script = `
+const script = document.createElement('script');
+script.src = '/empty'
+document.head.appendChild(script);
+`
+        html += '<script src="/empty"></script>'
+    }
     let dom_xss = ''
 
     if (type === 'DOM') {
         add_to_csp('script-src', "data:");
-
+        
         let payload_content = `
 onload = () => {
     url = new URL(location.href);
-    payload.innerHTML = url.searchParams.get('dom_xss');
+    payload.innerHTML = url.searchParams.get('dom_xss');${dynamic_script}
 };`
         let payload_src = `data:text/javascript,${encodeURIComponent(payload_content)}`
         html = `<html><head></head><body><div id=payload></div></body></html><script src="${payload_src}"></script>`;

