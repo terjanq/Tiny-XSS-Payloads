@@ -89,7 +89,6 @@ function execute_payload(payload, type = "reflected") {
     let html = payload.html;
     let dynamic_script = '';
     if(payload.tags.includes(TAGS.requiresRelativeScript)){
-        add_to_csp('script-src', "'self'");
         dynamic_script = `
 const script = document.createElement('script');
 script.src = '/empty'
